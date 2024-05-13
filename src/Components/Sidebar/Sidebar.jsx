@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex, Link, Tooltip } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom';
-import { CreatePostLogo, InstagramLogo, InstagramMobileLogo, NotificationsLogo } from '../../assets/constants';
+import { CreatePostLogo, InstagramLogo, InstagramMobileLogo, NotificationsLogo, SearchLogo } from '../../assets/constants';
 import {AiFillHome} from "react-icons/ai";
 import { color } from 'framer-motion';
 
@@ -13,7 +13,7 @@ const Sidebar = () => {
       link: "/",
     },
     {
-      icon: <searchLogo/>,
+      icon: <SearchLogo/>,
       text: "Search",
     },
     {
@@ -65,7 +65,7 @@ const Sidebar = () => {
             placement='right'
             ml={1}
             openDelay={500}
-            display={{base:'none', md: 'block'}}
+            display={{base:'block', md: 'none'}}
             color={'white'}
             >
               <Link
@@ -80,7 +80,7 @@ const Sidebar = () => {
               w={{base:10, md:'full' }}
               >
                 {item.icon}
-                <Box display={{base: "none", md: "bock"}}>
+                <Box display={{base: "none", md: "block"}}>
                   {item.text}
                 </Box>
 
