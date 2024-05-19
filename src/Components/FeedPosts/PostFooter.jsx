@@ -1,6 +1,6 @@
 import { Box, Flex, InputGroup, InputRightElement, Text, Button, Input} from "@chakra-ui/react"
 import { useState } from "react"
-import { CommentLogo, NotificationsLogo, UnlikeLogo } from "../../assets/constants"
+import { CommentLogo, NotificationsLogo, Sharelogo, UnlikeLogo } from "../../assets/constants"
 
 const PostFooter = ({username}) => {
   const [liked, setLiked] = useState(false);
@@ -27,6 +27,11 @@ const PostFooter = ({username}) => {
         <Box cursor={'pointer'} fontSize={18}>
           <CommentLogo />
         </Box>
+
+        <Box cursor={'pointer'} >
+          <Sharelogo />
+        </Box>
+
       </Flex>
 
       <Text fontWeight={600} fontSize={"sm"}>
