@@ -1,9 +1,11 @@
-import { Container, Flex, Grid, GridItem, Skeleton, VStack, HStack } from "@chakra-ui/react"
+import { Container, Flex, Grid, GridItem, Skeleton, VStack, Box } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
+import ProfilePost from '../../Components/Profile/ProfilePost'
 
 const ProfilePosts = () => {
 
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() =>{
     setTimeout(() => {
       setIsLoading(false)
@@ -12,36 +14,37 @@ const ProfilePosts = () => {
 
 
   return (
-    <>
-      <Container maxW={'container.sm'} py={10} px={2}>
+    <Grid
+    templateColumns={{
+      sm: 'repeat(1, 1fr)',
+      md: 'repeat(3, 1fr)'
+    }}
+    gap={1}
+    column={1}
+    >
       {isLoading &&
-      [0,1].map((_, idx) =>(
-        <VStack key={idx} gap={4} alignItems={'center'} mb={10}>
-          <Flex gap={2}>
-            <Skeleton/>
-            <HStack gap={2} alignItems={"flex-start"}>
-                <Skeleton height='300px' w={"200px"} />
-                <Skeleton height='300px' w={"200px"} />
-                <Skeleton height='300px' w={"200px"} />
-              </HStack>
-
-          </Flex>
-        </VStack>
+      [0,1,2,3,4,5].map((_, idx) =>(
+        <VStack key={idx} alignItems={'flex-start'} gap={4}>
+            <Skeleton w={'full'}>
+                <Box h={'300px'}>Contents Wrapped</Box>
+            </Skeleton>
+            </VStack>
       ))}
-      </Container>
 
 
 
 
       {!isLoading && (
-
-      <Grid templateColumns= {{sm:'repeat(1, 1fr)', md: "repeat(3, 1fr)"}} gap={1} columnGap={1} border={'1px solid white'} w={'full'}>
-          <GridItem w={'full'} h={300} bg={'gray.500'} border={'1px solid red'} p={2} m={2} />
-          <GridItem w={'full'} h={300} bg={'gray.500'} border={'1px solid red'} p={2} m={2}/>
-          <GridItem w={'full'} h={300} bg={'gray.500'} border={'1px solid red'} p={2} m={2}/>
-      </Grid>
+         <>
+        <ProfilePost img="/img2.png"/>
+        <ProfilePost img="/img3.png"/>
+        <ProfilePost img="/img01.png"/>
+        <ProfilePost img="/img04.png"/>
+        </>
+      
       )}
-</>
+</Grid> 
+
       )}
 
 
