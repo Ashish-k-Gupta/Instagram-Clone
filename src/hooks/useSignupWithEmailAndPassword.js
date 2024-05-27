@@ -11,7 +11,7 @@ const useSignUpWithEmailAndPassword = () => {
   const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
   const showToast = useShowToast()
   const loginUser = userAuthStore(state => state.login)
-  const logoutUser = userAuthStore(state => state.logout)
+  // const logoutUser = userAuthStore(state => state.logout)
 
   const signup = async (inputs) => {
     if (!inputs.username || !inputs.fullName || !inputs.email || !inputs.password) {
@@ -39,7 +39,7 @@ const useSignUpWithEmailAndPassword = () => {
         }
         await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
         localStorage.setItem("user-info", JSON.stringify(userDoc))
-        loginUser
+        loginUser(userDoc)
         showToast("Account Created", "We've created your account for you.", "success");
       }
     }
