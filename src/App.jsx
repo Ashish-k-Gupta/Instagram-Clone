@@ -4,12 +4,13 @@ import AuthPage from "./Pages/AuthPage/AuthPage"
 import PageLayout from "./Layouts/PageLayout/PageLayout"
 import ProfilePage from "./Pages/ProfilePage/ProfilePage"
 import { useAuthState } from "react-firebase-hooks/auth"
-import userAuthStore from "./store/authStore"
+import { auth } from "./firebase/firebase"
 
 
 function App() {
-  const authUser = userAuthStore(state => state.user);
-  return (
+  const [authUser] = useAuthState(auth)
+
+  return (  
     <>
       <PageLayout>
         <Routes>
