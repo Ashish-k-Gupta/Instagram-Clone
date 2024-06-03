@@ -10,42 +10,42 @@ insstead of adding the sidebar component to every page, we can add it only once 
 This way, we can have a sidebar on every page except the AuthPage.
 */
 
-const PageLayout = ({children}) => {
+const PageLayout = ({ children }) => {
 
-    const {pathname} = useLocation();
+    const { pathname } = useLocation();
     const [user, loading, error] = useAuthState(auth);
     const canRenderSidebar = pathname !== "/auth" && user;
-    const canRenderNavbar = !user && !loading && pathname !== "/auth"; 
+    const canRenderNavbar = !user && !loading && pathname !== "/auth";
 
     const checkingUserIsAuth = !user && loading
-    if(checkingUserIsAuth) return <PageLayoutSpinner/>
+    if (checkingUserIsAuth) return <PageLayoutSpinner />
 
-  return (
-    <Flex flexDir={canRenderNavbar ? "column" : "row"}>
-        {/* Sidebar on the Left */}
-        {canRenderSidebar ? (
-            <Box w={{base: "70px", md: "240px"}}>
-                <Sidebar/>
+    return (
+        <Flex flexDir={canRenderNavbar ? "column" : "row"}>
+            {/* Sidebar on the Left */}
+            {canRenderSidebar ? (
+                <Box w={{ base: "70px", md: "240px" }}>
+                    <Sidebar />
+                </Box>
+            ) : null}
+
+            {/* Navbar */}
+            {canRenderNavbar ? <Navbar /> : null}
+            {/* The page content on the right */}
+            <Box flex={1} mx={'auto'}>
+                {children}
             </Box>
-        ) : null}
-         
-        {/* Navbar */}
-        {canRenderNavbar ? <Navbar/> : null}
-        {/* The page content on the right */}
-        <Box Flex={1} mx={'auto'}>
-            {children}
-        </Box>
-    </Flex>
+        </Flex>
 
-  );
+    );
 };
 
 export default PageLayout;
 
-const PageLayoutSpinner =() =>{
+const PageLayoutSpinner = () => {
     return (
-        <Flex flexDir= 'column' h='100vh' alignItems='center' justifyContent='center'>
-            <Spinner size= 'xl' />
+        <Flex flexDir='column' h='100vh' alignItems='center' justifyContent='center'>
+            <Spinner size='xl' />
         </Flex>
     )
 }
