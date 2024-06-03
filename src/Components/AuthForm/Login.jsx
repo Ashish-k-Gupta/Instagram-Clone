@@ -11,8 +11,19 @@ const Login = () => {
   });
   const { loading, error, login } = useLogin()
 
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    login(inputs);
+  }
+
+
   return (
     <>
+    {/* If I add form to handle the submit button so that after filling the info if someone clicks on enter button, it
+    automatically submits the details. But on doing that there is an error and that is the alignment (Height & width) of whole 
+    Authpage get distorted */}
+    
+    {/* // <form onSubmit={handleSubmit}  style={{width: "100%"}} > */}
       <Input placeholder="Email" fontSize={14} type="email"
         value={inputs.email}
         size={'sm'}
@@ -31,13 +42,20 @@ const Login = () => {
         </Alert>
       )}
 
-      <Button w={"full"} colorScheme="blue" size={"sm"} fontSize={14}
-        isLoading={loading}
-        onClick={() => login(inputs)}>
-        Log in
+      <Button w={"full"} 
+      colorScheme="blue" 
+      size={"sm"} 
+      fontSize={14}
+      isLoading={loading}
+      type="submit"
+      onClick={() => login(inputs)}
+      >
+      Log in
       </Button>
 
-    </>
+     {/* </form> */}
+    
+     </> 
   )
 }
 

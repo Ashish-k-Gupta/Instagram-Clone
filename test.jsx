@@ -1,104 +1,60 @@
-import { create } from "zustand";
+import { Input, Button, Alert, AlertIcon } from "@chakra-ui/react";
+import { useState } from "react";
+import useLogin from "../../hooks/useLogin.js";
 
-const getUserFromLocalStorage = () => {
-  const userInfo = localStorage.getItem("user-info");
-  try {
-    return userInfo ? JSON.parse(userInfo) : null;
-  } catch (error) {
-    console.error("Failed to parse user-info from localStorage:", error);
-    return null;
-  }
+const Login = () => {
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: ""
+  });
+  const { loading, error, login } = useLogin();
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent the default form submission
+    login(inputs);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input 
+        placeholder="Email" 
+        fontSize={14} 
+        type="email"
+        value={inputs.email}
+        size="sm"
+        onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+        mb={2} // Adding margin for better spacing
+      />
+
+      <Input 
+        placeholder="Password" 
+        fontSize={14} 
+        type="password"
+        value={inputs.password}
+        size="sm"
+        onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+        mb={2} // Adding margin for better spacing
+      />
+
+      {error && (
+        <Alert status="error" fontSize={13} p={2} borderRadius={4} mb={2}>
+          <AlertIcon fontSize={12} />
+          {error.message}
+        </Alert>
+      )}
+
+      <Button 
+        w="full" 
+        colorScheme="blue" 
+        size="sm" 
+        fontSize={14}
+        isLoading={loading}
+        type="submit" // Change to submit type
+      >
+        Log in
+      </Button>
+    </form>
+  );
 };
 
-const useAuthStore = create((set) => ({
-  user: getUserFromLocalStorage(),
-  login: (user) => {
-    localStorage.setItem("user-info", JSON.stringify(user));
-    set({ user });
-  },
-  logout: () => {
-    localStorage.removeItem("user-info");
-    set({ user: null });
-  },
-  setUser: (user) => {
-    localStorage.setItem("user-info", JSON.stringify(user));
-    set({ user });
-  },
-}));
-
-export default useAuthStore;
-
-
-
-
-
-
-
-
-
-/* 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { create } from "zustand";
-
-const getUserFromLocalStorage = () => {
-  const userInfo = localStorage.getItem("user-info");
-  if (!userInfo) {
-    return null;
-  }
-  try {
-    const parsedUserInfo = JSON.parse(userInfo);
-    // Additional validation to ensure parsed data is an object
-    if (typeof parsedUserInfo === "object" && parsedUserInfo !== null) {
-      return parsedUserInfo;
-    }
-    console.error("Invalid user-info data format:", userInfo);
-    return null;
-  } catch (error) {
-    console.error("Failed to parse user-info from localStorage:", error);
-    return null;
-  }
-};
-
-const useAuthStore = create((set) => ({
-  user: getUserFromLocalStorage(),
-  login: (user) => {
-    try {
-      localStorage.setItem("user-info", JSON.stringify(user));
-      set({ user });
-    } catch (error) {
-      console.error("Failed to save user-info to localStorage:", error);
-    }
-  },
-  logout: () => {
-    localStorage.removeItem("user-info");
-    set({ user: null });
-  },
-  setUser: (user) => {
-    try {
-      localStorage.setItem("user-info", JSON.stringify(user));
-      set({ user });
-    } catch (error) {
-      console.error("Failed to save user-info to localStorage:", error);
-    }
-  },
-}));
-
-export default useAuthStore;
- */
+export default Login;

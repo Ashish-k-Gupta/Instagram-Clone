@@ -1,29 +1,41 @@
- import { Avatar, Flex, Text, textDecoration, Link } from '@chakra-ui/react'
-import React from 'react'
-import { Link as RouterLink} from 'react-router-dom'
- 
- const SuggestedHeader = () => {
-   return (
-        <Flex justifyContent={'space-between'} alignItems={'center'} w={'full'}>
-            <Flex alignItems={'center'} gap={2}>
-            <Avatar name='Ashish Gupta' size={'sm'} src='/profilepic.png' />
-                <Text fontSize={12} fontWeight={"bold"}>
-                    Ashish Gupta
-                </Text>
-        </Flex>       
-            <Link
-            as={RouterLink}
-            to={'/auth'}
-            fontSize ={14}
-            fontWeight={"medium"}
-            color={"blue.400"}
-            cursor={"pointer"}
-            style={{textDecoration: 'none'}}
-            _hover={{color: 'white', fontWeight: "600"}}
-            >Log out</Link>
-        </Flex>       
-   )
- }
- 
- export default SuggestedHeader
- 
+import { Avatar, Button, Flex, Text } from "@chakra-ui/react";
+import useLogout from "../../hooks/useLogout";
+import useAuthStore from "../../store/authStore";
+import { Link } from "react-router-dom";
+
+const SuggestedHeader = () => {
+    const { handleLogout, isLoggingOut } = useLogout();
+    const authUser = useAuthStore((state) => state.user);
+
+    if (!authUser) return null;
+
+    return (
+        <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
+            <Flex alignItems={"center"} gap={2}>
+                <Link to={`${authUser.username}`}>
+                    <Avatar size={"md"} src={authUser.profilePicURL} />
+                </Link>
+                <Link to={`${authUser.username}`}>
+                    <Text fontSize={12} fontWeight={"bold"}>
+                        {authUser.username}
+                    </Text>
+                </Link>
+            </Flex>
+            <Button
+                size={"xs"}
+                background={"transparent"}
+                _hover={{ background: "transparent" }}
+                fontSize={14}
+                fontWeight={"medium"}
+                color={"blue.400"}
+                onClick={handleLogout}
+                isLoading={isLoggingOut}
+                cursor={"pointer"}
+            >
+                Log out
+            </Button>
+        </Flex>
+    );
+};
+
+export default SuggestedHeader;
